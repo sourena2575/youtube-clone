@@ -1,27 +1,29 @@
 import React, { createContext, useReducer } from "react";
-export const ContextBase = createContext();
+import YouTube from "./YouTube";
 
 const initialState = {
-  guessList: [],
-  comGuess: Math.floor(Math.random() * 100) + 1
+  video: [],
+  selectedVideo: null
 };
-
 const reducer = (state, action) => {
   switch (action.type) {
-    case "ADD":
+    case "SEARCH":
       return {
         ...state,
-        guessList: [action.payload, ...state.guessList]
+        video: action.payload,
+        selectedVideo: action.payload[0]
       };
+
     default:
       return state;
   }
 };
+export const ContextBase = createContext();
 
 const ContextProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <ContextBase.Provider value={{ state, dispatch }}>
+    <ContextBase.Provider value={{ dispatch, state }}>
       {props.children}
     </ContextBase.Provider>
   );
